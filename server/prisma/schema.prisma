@@ -1,13 +1,56 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Season {
+  id          Int          @id @default(autoincrement())
+  number      Int
+  country     String
+  year        Int
+  castMembers CastMember[]
+}
+
+model CastMember {
+  id           Int      @id @default(autoincrement())
+  name         String
+  age          Int
+  placement    Int
+  isTraitor    Boolean
+  seasonId     Int
+  season       Season   @relation(fields: [seasonId], references: [id])
+  dailyPuzzles DailyPuzzle[]
+}
+
+model DailyPuzzle {
+  id           Int        @id @default(autoincrement())
+  date         DateTime   @unique
+  castMemberId Int
+  castMember   CastMember @relation(fields: [castMemberId], references: [id])
+  scores       Score[]
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  passwordHash  String
+  username      String   @unique
+  streak        Int      @default(0)
+  bestStreak    Int      @default(0)
+  createdAt     DateTime @default(now())
+  scores        Score[]
+}
+
+model Score {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  puzzleId      Int
+  guessCount    Int
+  won           Boolean
+  createdAt     DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id])
+  puzzle        DailyPuzzle @relation(fields: [puzzleId], references: [id])
 }
