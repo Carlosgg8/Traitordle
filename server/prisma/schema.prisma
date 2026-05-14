@@ -23,6 +23,7 @@ model CastMember {
   seasonId     Int
   season       Season   @relation(fields: [seasonId], references: [id])
   dailyPuzzles DailyPuzzle[]
+  @@unique([name, seasonId])
 }
 
 model DailyPuzzle {
