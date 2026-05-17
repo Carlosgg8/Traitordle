@@ -1,6 +1,6 @@
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
-import 'dotenv/config'
 import errorHandler from './middleware/errorHandler.js'
 import authRouter from './routes/auth.js'
 import puzzleRouter from './routes/puzzle.js'
