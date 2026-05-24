@@ -3,10 +3,11 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import prisma from '../lib/prisma.js'
 import 'dotenv/config'
+import validateBody from '../middleware/validate.js'
 
 const router = express.Router()
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', validateBody(['email', 'username', 'password']), async (req, res, next) => {
   try {
     const { email, username, password } = req.body
 
@@ -27,7 +28,7 @@ router.post('/register', async (req, res, next) => {
   }
 })
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', validateBody(['password']), async (req, res, next) => {
   try {
     const { email, username, password } = req.body
     const identifier = email || username

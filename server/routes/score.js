@@ -37,9 +37,6 @@ router.post('/', authenticateToken, async (req, res, next) => {
         }
         })
 
-        console.log('won:', won)
-        console.log('user before update:', user)
-        console.log('yesterdayScore:', yesterdayScore)
 
         if (yesterdayScore) {
         // increment streak
@@ -60,7 +57,6 @@ router.post('/', authenticateToken, async (req, res, next) => {
               bestStreak: user.bestStreak < 1 ? 1 : user.bestStreak
             }
           })
-          console.log('updated user:', updated)
         }
     }
 

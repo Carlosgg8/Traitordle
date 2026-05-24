@@ -59,8 +59,9 @@ router.post('/guess', async (req, res, next) => {
       },
       season: {
         value: guess.season.number,
-        result: guess.season.number === answer.season.number ? 'correct' : 
-                Math.abs(guess.season.number - answer.season.number) <= 1 ? 'close' : 'wrong'
+        result: guess.season.number === answer.season.number && 
+                guess.season.country === answer.season.country ? 'correct' :
+                guess.season.number === answer.season.number ? 'close' : 'wrong'
       },
       country: {
         value: guess.season.country,
