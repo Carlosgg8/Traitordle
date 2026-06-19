@@ -48,29 +48,33 @@ export default function SearchInput({ onSelect }) {
         }
 
     return (
-        <div>
+        <div className="search-wrapper">
             <input 
-                type='text' 
-                laceholder='Search cast members...' 
-                value={query} 
-                onChange={(e) => setQuery(e.target.value)}
+            type='text' 
+            placeholder='Search cast members...' 
+            value={query} 
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="search-input"
             />
 
-            <ul>
+            {showDropdown && results.length > 0 && (
+            <ul className="search-dropdown">
                 {results.map((actor, index) => (
-                    <li
-                        key={actor.id}
-                        style={{ background: index === highlightedIndex ? '#e5e7eb' : 'white' }}
-                        onClick={() => {
-                            onSelect(actor)
-                            setQuery('')
-                            setShowDropdown(false)
-                        }}
-                    >
+                <li
+                    key={actor.id}
+                    className={`search-dropdown-item ${index === highlightedIndex ? 'highlighted' : ''}`}
+                    onClick={() => {
+                    onSelect(actor)
+                    setQuery('')
+                    setShowDropdown(false)
+                    }}
+                >
                     {actor.name} — S{actor.season.number} {actor.season.country.toUpperCase()}
-                    </li>
+                </li>
                 ))}
             </ul>
+            )}
         </div>
     )
 }

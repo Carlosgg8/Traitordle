@@ -2,9 +2,10 @@ import React from 'react'
 
 export default function GuessRow({ name, comparison }) {
     const getColor = (result) => {
+        if (result === 'neutral') return '#3a3a3a'
         if (result === 'correct') return '#16a34a'
         if (result === 'close') return '#ca8a04'
-        return '#dc2626'
+        return '#3a3a3a'
     }
 
     const getDirection = (direction) => {
@@ -14,7 +15,7 @@ export default function GuessRow({ name, comparison }) {
     }
 
     const cells = [
-        { label: 'Name', value: name, result: 'correct' },
+        { label: 'Name', value: name, result: 'nuetral' },
         { label: 'Traitor', value: comparison.isTraitor.value ? 'Yes' : 'No', result: comparison.isTraitor.result },
         { label: 'Season', value: comparison.season.value, result: comparison.season.result },
         { label: 'Country', value: comparison.country.value.toUpperCase(), result: comparison.country.result },
@@ -23,25 +24,20 @@ export default function GuessRow({ name, comparison }) {
     ]
 
     return (
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-        {cells.map((cell) => (
+        <div className="guess-row">
+            {cells.map((cell, index) => (
             <div
-            key={cell.label}
-            style={{
+                key={cell.label}
+                className="guess-cell"
+                style={{
                 background: getColor(cell.result),
-                color: 'white',
-                padding: '12px 8px',
-                borderRadius: '6px',
-                width: '90px',
-                textAlign: 'center',
-                fontSize: '13px',
-                fontWeight: '500'
-            }}
+                animationDelay: `${index * 80}ms`,
+                }}
             >
-            <div style={{ fontSize: '10px', opacity: 0.8, marginBottom: '4px' }}>{cell.label}</div>
-            <div>{cell.value}</div>
+                <div className="guess-cell-label">{cell.label}</div>
+                <div className="guess-cell-value">{cell.value}</div>
             </div>
-        ))}
+            ))}
         </div>
     )
 }

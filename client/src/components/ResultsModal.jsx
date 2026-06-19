@@ -1,21 +1,14 @@
 import React from "react"
 
-export default function ResultModal({ won, guessCount, streak, onShare }) {
+export default function ResultModal({ won, guessCount, streak, onShare, onClose, answer }) {
   return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(0,0,0,0.5)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      zIndex: 100
-    }}>
-      <div style={{
-        background: 'white', borderRadius: '12px',
-        padding: '32px', textAlign: 'center', minWidth: '300px'
-      }}>
-        {won ? <h2>🎉 You got it!</h2> : <h2>😔 Better luck tomorrow!</h2>}
-        <p>{guessCount}/8 guesses</p>
-        {streak && <p>Current streak: {streak} 🔥</p>}
-        <button onClick={onShare}>Share 📋</button>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {won ? <h2 className="modal-title won">You got it!</h2> : <h2 className="modal-title lost">Better luck tomorrow!</h2>}
+        <p className="modal-guesses">{guessCount}/8 guesses</p>
+        {!won && answer && <p className="modal-answer">The answer was: <strong>{answer}</strong></p>}
+        {streak && <p className="modal-streak">Current streak: {streak}</p>}
+        <button className="modal-share" onClick={onShare}>Share</button>
       </div>
     </div>
   )

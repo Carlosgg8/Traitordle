@@ -90,5 +90,26 @@ router.post('/guess', async (req, res, next) => {
   }
 })
 
+router.get('/answer', async (req, res, next) => {
+    try {
+        const today = new Date()
+        today.setUTCHours(0, 0, 0, 0)
+        const tomorrow = new Date(today)
+        tomorrow.setUTCDate(tomorrow.getUTCDate() + 1)
+
+        const puzzle = await prisma.dailyPuzzle.findFirst({
+          where: { date: { gte: today, lt: tomorrow } },
+          include: { castMember: true }
+        })
+
+        if (!puzzle) return res.status(404).json({ error: 'Puzzle not found' })
+
+        res.status(200).json({ name: puzzle.castMember.name })
+      } catch (err) {
+          next(err)
+      }
+})
+
+
 
 export default router
